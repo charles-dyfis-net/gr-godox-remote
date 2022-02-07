@@ -1,6 +1,10 @@
 Emulator for Godox RC-A5II Remote Control
 =========================================
 
+![Capture Flowgraph Screenshot](./doc/assets/capture-flowgraph.png)
+
+![Captured Packet Screenshot](./doc/assets/captured-packet.png)
+
 Have Godox lights using a 433mHz remote? (Tested with VL150 and VL300)
 
 Own a HackRF, USRP, or other software-defined radio platform compatible with GNU radio?
@@ -9,6 +13,7 @@ Want to be able to control your lights programatically?
 
 
 This project doesn't do that _yet_, but it already has collected data that should allow https://github.com/BrittonPlewes/GodoxRemote to be updated to calculate the checksum field internally.
+
 
 
 Usage
