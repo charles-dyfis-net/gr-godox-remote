@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd "${BASH_SOURCE[0]%/*}" || exit
+PYTHONPATH=$PWD/src GRC_BLOCKS_PATH=${GRC_BLOCKS_PATH+$GRC_BLOCKS_PATH:}$PWD/blocks gnuradio-companion
+

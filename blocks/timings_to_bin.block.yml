@@ -1,0 +1,56 @@
+id: timings_to_bin
+label: Decode Godox Timings
+category: 'Godox'
+flags: [python]
+
+parameters:
+- id: textual_output
+  label: Textual Output
+  dtype: bool
+  default: 'False'
+- id: forward_partial
+  label: Forward Partial Messages?
+  dtype: bool
+  default: 'False'
+- id: hello_min
+  label: Hello Minimum
+  dtype: float
+  default: 10e-4
+- id: hello_max
+  label: Hello Maximum
+  dtype: float
+  default: 12e-4
+- id: low_min
+  label: Low-Bit Minimum Time
+  dtype: float
+  default: 5e-4
+- id: low_max
+  label: Low-Bit Maximum Time
+  dtype: float
+  default: 7e-4
+- id: high_max
+  label: High-Bit Maximum Time
+  default: 14e-4
+- id: sep_min
+  label: Separator Minimum Time
+  default: 6e-4
+- id: sep_max
+  label: Separator Maximum Time
+  default: 8e-4
+
+inputs:
+- domain: message
+  id: in
+
+outputs:
+- domain: message
+  id: out
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.timings_to_bin(textual_output=${textual_output}, forward_partial=${forward_partial}, hello_min=${hello_min}, hello_max=${hello_max}, low_min=${low_min}, low_max=${low_max}, high_max=${high_max}, sep_min=${sep_min}, sep_max=${sep_max})
+
+file_format: 1

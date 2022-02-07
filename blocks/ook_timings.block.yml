@@ -1,0 +1,35 @@
+id: ook_timings
+label: OOK Timing Collector
+category: 'Godox'
+flags: [python]
+
+parameters:
+- id: sample_rate
+  label: Sample Rate
+  dtype: float
+  default: '1'
+- id: packet_tag
+  label: Packet Tag
+  dtype: string
+  default: '"packet"'
+- id: edge_tag
+  label: Edge Tag
+  dtype: string
+  default: '"edge"'
+
+inputs:
+- domain: stream
+  dtype: float
+
+outputs:
+- domain: message
+  id: out
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.ook_timings(sample_rate=${sample_rate}, packet_tag=${packet_tag}, edge_tag=${edge_tag})
+
+file_format: 1
