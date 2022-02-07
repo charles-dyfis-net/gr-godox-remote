@@ -1,5 +1,5 @@
-Emulator for Godox RC-A5II Remote Control
-=========================================
+(Not Yet An) Emulator for Godox RC-A5II Remote Control
+======================================================
 
 ![Capture Flowgraph Screenshot](./doc/assets/capture-flowgraph.png)
 
