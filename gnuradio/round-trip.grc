@@ -117,6 +117,47 @@ blocks:
     coordinate: [472, 16.0]
     rotation: 0
     state: true
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: center_freq
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 624.0]
+    rotation: 0
+    state: true
+- name: bitfield_to_timings_0
+  id: bitfield_to_timings
+  parameters:
+    affinity: ''
+    alias: ''
+    bit_high_time: 13e-4
+    bit_low_time: 6e-4
+    bit_sep_time: 7e-4
+    comment: ''
+    hello_time: 13e-4
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 552.0]
+    rotation: 0
+    state: true
 - name: blocks_burst_tagger_0
   id: blocks_burst_tagger
   parameters:
@@ -173,6 +214,22 @@ blocks:
     coordinate: [240, 128.0]
     rotation: 0
     state: enabled
+- name: blocks_float_to_complex_0
+  id: blocks_float_to_complex
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 544.0]
+    rotation: 0
+    state: true
 - name: blocks_float_to_short_0
   id: blocks_float_to_short
   parameters:
@@ -218,7 +275,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1288, 288.0]
+    coordinate: [1352, 320.0]
+    rotation: 0
+    state: enabled
+- name: blocks_message_debug_1
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 688.0]
     rotation: 0
     state: enabled
 - name: blocks_moving_average_xx_0
@@ -238,7 +309,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 416.0]
+    coordinate: [208, 456.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1184, 568.0]
     rotation: 0
     state: true
 - name: blocks_threshold_ff_0
@@ -277,7 +366,52 @@ blocks:
     coordinate: [360, 424.0]
     rotation: 0
     state: true
-- name: ookfloat_to_timings_0
+- name: decode_binfmt_0
+  id: bitfield_to_message
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 184.0]
+    rotation: 0
+    state: true
+- name: encode_binfmt_0
+  id: message_to_bitfield
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 584.0]
+    rotation: 0
+    state: true
+- name: message_sanitizer_0
+  id: message_sanitizer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 664.0]
+    rotation: 0
+    state: true
+- name: ook_timings_0
   id: ookfloat_to_timings
   parameters:
     affinity: ''
@@ -292,7 +426,104 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [800, 376.0]
+    coordinate: [792, 376.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_time_sink_x_0
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'True'
+    entags: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: '""'
+    nconnections: '1'
+    size: display_samples
+    srate: samp_rate
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.5'
+    tr_mode: qtgui.TRIG_MODE_AUTO
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Generated Waveform
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1320, 560.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_1
@@ -381,7 +612,7 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    ylabel: Magnitude
+    ylabel: Input Magnitude
     ymax: '.5'
     ymin: '0'
     yunit: '""'
@@ -389,31 +620,52 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [800, 272.0]
+    coordinate: [776, 248.0]
     rotation: 0
     state: enabled
-- name: timings_to_bitfield_0
+- name: timings_to_bin_0
   id: timings_to_bitfield
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     forward_partial: 'False'
-    hello_max: 12e-4
+    hello_max: 13e-4
     hello_min: 10e-4
     high_max: 14e-4
-    low_max: 7e-4
-    low_min: 5e-4
+    low_max: 9e-4
+    low_min: 4e-4
     maxoutbuf: '0'
     minoutbuf: '0'
     sep_max: 8e-4
     sep_min: 6e-4
-    textual_output: 'True'
+    textual_output: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [976, 180.0]
+    rotation: 0
+    state: enabled
+- name: timings_to_ookfloat_0
+  id: timings_to_ookfloat
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    false_value: '0.0'
+    idle_value: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    sample_rate: samp_rate
+    sep_time: 5e-3
+    sep_value: '0.0'
+    true_value: '1.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 544.0]
     rotation: 0
     state: true
 - name: uhd_usrp_source_0
@@ -852,42 +1104,66 @@ blocks:
     coordinate: [24, 128.0]
     rotation: 0
     state: enabled
-- name: zeromq_push_msg_sink_0
-  id: zeromq_push_msg_sink
+- name: virtual_sink_0
+  id: virtual_sink
   parameters:
-    address: tcp://127.0.0.1:15263
-    affinity: ''
     alias: ''
-    bind: 'False'
     comment: ''
-    timeout: '100'
+    stream_id: messages
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 200.0]
+    coordinate: [1448, 176.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: messages
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 584.0]
     rotation: 0
     state: true
 
 connections:
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
+- [bitfield_to_timings_0, debug, blocks_message_debug_1, print]
+- [bitfield_to_timings_0, out, timings_to_ookfloat_0, in]
 - [blocks_burst_tagger_0, '0', blocks_burst_tagger_1, '0']
-- [blocks_burst_tagger_1, '0', ookfloat_to_timings_0, '0']
+- [blocks_burst_tagger_1, '0', ook_timings_0, '0']
 - [blocks_burst_tagger_1, '0', qtgui_time_sink_x_1, '1']
 - [blocks_complex_to_mag_squared_0, '0', blocks_threshold_ff_0, '0']
 - [blocks_complex_to_mag_squared_0, '0', qtgui_time_sink_x_1, '0']
+- [blocks_float_to_complex_0, '0', blocks_multiply_xx_0, '0']
 - [blocks_float_to_short_0, '0', blocks_burst_tagger_0, '1']
 - [blocks_float_to_short_1, '0', blocks_burst_tagger_1, '1']
 - [blocks_moving_average_xx_0, '0', blocks_threshold_ff_1, '0']
+- [blocks_multiply_xx_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_burst_tagger_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_float_to_short_0, '0']
 - [blocks_threshold_ff_0, '0', blocks_moving_average_xx_0, '0']
 - [blocks_threshold_ff_1, '0', blocks_float_to_short_1, '0']
-- [ookfloat_to_timings_0, debug, blocks_message_debug_0, print]
-- [ookfloat_to_timings_0, out, timings_to_bitfield_0, in]
-- [timings_to_bitfield_0, debug, blocks_message_debug_0, print]
-- [timings_to_bitfield_0, out, blocks_message_debug_0, print]
-- [timings_to_bitfield_0, out, zeromq_push_msg_sink_0, in]
+- [decode_binfmt_0, debug, blocks_message_debug_0, print]
+- [decode_binfmt_0, out, blocks_message_debug_0, print]
+- [decode_binfmt_0, out, virtual_sink_0, '0']
+- [encode_binfmt_0, debug, blocks_message_debug_1, print]
+- [encode_binfmt_0, out, bitfield_to_timings_0, in]
+- [message_sanitizer_0, debug, blocks_message_debug_1, print]
+- [message_sanitizer_0, out, encode_binfmt_0, in]
+- [ook_timings_0, debug, blocks_message_debug_0, print]
+- [ook_timings_0, out, timings_to_bin_0, in]
+- [timings_to_bin_0, debug, blocks_message_debug_0, print]
+- [timings_to_bin_0, out, decode_binfmt_0, in]
+- [timings_to_ookfloat_0, '0', blocks_float_to_complex_0, '0']
+- [timings_to_ookfloat_0, debug, blocks_message_debug_1, print]
 - [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
+- [virtual_source_0, '0', message_sanitizer_0, in]
 
 metadata:
   file_format: 1

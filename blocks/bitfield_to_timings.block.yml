@@ -1,0 +1,38 @@
+id: bitfield_to_timings
+label: Godox Bitfield -> Timings
+category: '[Godox]'
+flags: [python]
+
+parameters:
+- id: hello_time
+  label: Hello Time
+  dtype: float
+  default: 13e-4
+- id: bit_low_time
+  label: Low-Bit Time
+  dtype: float
+  default: 6e-4
+- id: bit_high_time
+  dtype: float
+  default: 13e-4
+- id: bit_sep_time
+  dtype: float
+  default: 7e-4
+
+inputs:
+- domain: message
+  id: in
+
+outputs:
+- domain: message
+  id: out
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.bitfield_to_timings(hello_time=${hello_time}, bit_low_time=${bit_low_time}, bit_high_time=${bit_high_time}, bit_sep_time=${bit_sep_time})
+
+file_format: 1
+

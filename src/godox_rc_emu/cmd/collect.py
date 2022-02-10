@@ -42,7 +42,7 @@ SELECT
        substr(content, 17, 2) AS cmd_bits,
        substr(content, 19, 6) AS temp_bits,
        substr(content, 25, 8) AS cksum_bits,
-       substr(content, 1, 16) AS hashed_bits -- presumed, subject to change
+       substr(content, 1, 16) AS hashed_bits
 FROM raw_messages
 WHERE length(content) = 33 AND seen_count > 2;
 
@@ -70,7 +70,7 @@ SELECT
     iif(0 != grp_int & 1, 110, 0) AS xor_grp1,
     iif(0 != grp_int & 2, 220, 0) AS xor_grp2,
     iif(0 != grp_int & 4, 137, 0) AS xor_grp4,
-    iif(0 != grp_int & 8, 35, 0) AS xor_grp8, -- prev thought 224
+    iif(0 != grp_int & 8, 35, 0) AS xor_grp8,
     iif(0 != chan_int & 1, 244, 0) AS xor_chan1,
     iif(0 != chan_int & 2, 217, 0) AS xor_chan2,
     iif(0 != chan_int & 4, 131, 0) AS xor_chan4,

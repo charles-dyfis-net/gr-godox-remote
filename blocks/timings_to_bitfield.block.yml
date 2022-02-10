@@ -1,6 +1,6 @@
-id: timings_to_bin
-label: Decode Godox Timings
-category: 'Godox'
+id: timings_to_bitfield
+label: Godox Timings -> Bitfield
+category: '[Godox]'
 flags: [python]
 
 parameters:
@@ -51,6 +51,6 @@ outputs:
 
 templates:
   imports: import godox_rc_emu
-  make: godox_rc_emu.timings_to_bin(textual_output=${textual_output}, forward_partial=${forward_partial}, hello_min=${hello_min}, hello_max=${hello_max}, low_min=${low_min}, low_max=${low_max}, high_max=${high_max}, sep_min=${sep_min}, sep_max=${sep_max})
+  make: godox_rc_emu.timings_to_bitfield(textual_output=${textual_output}, forward_partial=${forward_partial}, hello_min=${hello_min}, hello_max=${hello_max}, low_min=${low_min}, low_max=${low_max}, high_max=${high_max}, sep_min=${sep_min}, sep_max=${sep_max})
 
 file_format: 1

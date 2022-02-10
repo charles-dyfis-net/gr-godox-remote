@@ -1,0 +1,21 @@
+id: message_to_bitfield
+label: Godox Message->Bitfield
+category: '[Godox]'
+flags: [python]
+
+inputs:
+- domain: message
+  id: in
+
+outputs:
+- domain: message
+  id: out
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.message_to_bitfield()
+
+file_format: 1

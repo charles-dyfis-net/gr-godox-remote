@@ -1,5 +1,5 @@
-(Not Yet An) Emulator for Godox RC-A5II Remote Control
-======================================================
+Emulator for Godox RC-A5II Remote Control
+=========================================
 
 ![Capture Flowgraph Screenshot](./doc/assets/capture-flowgraph.png)
 
@@ -11,15 +11,25 @@ Own a HackRF, USRP, or other software-defined radio platform compatible with GNU
 
 Want to be able to control your lights programatically?
 
-
-This project doesn't do that _yet_, but it already has collected data that should allow https://github.com/BrittonPlewes/GodoxRemote to be updated to calculate the checksum field internally.
+This project provides everything you need.
 
 
 
 Usage
 =====
 
-### Collecting wireless sequences
+### Generating wireless sequences
+
+This is the fun part! The blocks you'll use are as follows:
+
+- `Godox Message Sanitizer`: Takes messages (of the form `{"group": 2, "chan": 11, "cmd": 0, "color": 1}`), fixes any values outside the range that can be represented, and adds a valid checksum.
+- `Godox Message -> Bitfield`: Takes messages emitted by the sanitizer, and transforms to messages each containing a sequence of bits (`[0, 0, 1, 0, ...]`)
+- `Godox Bitfield -> Timings`: Takes messages each containing a sequence of bits, and transforms to a sequence of values and timings (`[(#t, 13e-4), (#f, 6e-4), (#t, 7e-4), ...]`)
+- `Timings -> OOK`: Takes messages each with a sequence of boolean values and times; generates a stream of floating-point values, suitable to be multiplied by a sine wave and sent out a radio.
+
+### Storing wireless sequences
+
+If you want to analyze behavior of your remote (perhaps you have a different model and it extends the protocol), this repository includes tools to capture sequences to a database for inspection.
 
 - Invoke `src/godox_rc_emu/cmd/collect.py` with the name of a SQLite database as an argument.
 - Invoke the provided `send-to-zmq.grc` GNU Radio Companion flowgraph, with a suitable antenna attached.

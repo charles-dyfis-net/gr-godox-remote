@@ -1,6 +1,6 @@
-id: ook_timings
-label: OOK Timing Collector
-category: 'Godox'
+id: ookfloat_to_timings
+label: OOK -> Timings
+category: '[Godox]'
 flags: [python]
 
 parameters:
@@ -30,6 +30,6 @@ outputs:
 
 templates:
   imports: import godox_rc_emu
-  make: godox_rc_emu.ook_timings(sample_rate=${sample_rate}, packet_tag=${packet_tag}, edge_tag=${edge_tag})
+  make: godox_rc_emu.ookfloat_to_timings(sample_rate=${sample_rate}, packet_tag=${packet_tag}, edge_tag=${edge_tag})
 
 file_format: 1

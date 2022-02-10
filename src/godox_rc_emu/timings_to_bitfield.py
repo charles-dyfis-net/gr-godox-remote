@@ -2,7 +2,7 @@ import numpy as np
 import pmt
 from gnuradio import gr
 
-class timings_to_bin(gr.sync_block):
+class timings_to_bitfield(gr.sync_block):
     """Given a sequence of messages containing locations of rising and falling edges within a packet, try to decode that packet.
     """
 
@@ -25,7 +25,7 @@ class timings_to_bin(gr.sync_block):
             sep_max=8e-4):
         gr.sync_block.__init__(
             self,
-            name='Godox Binary Decoder',   # will show up in GRC
+            name='Godox Timings -> Bitfield',   # will show up in GRC
             in_sig=None,
             out_sig=None
         )
@@ -40,11 +40,11 @@ class timings_to_bin(gr.sync_block):
         self.forward_partial = forward_partial
 
         self.inPortName = pmt.intern('in')
-        self.msgPortName = pmt.intern('out')
+        self.outPortName = pmt.intern('out')
         self.debugPortName = pmt.intern('debug')
 
         self.message_port_register_in(self.inPortName)
-        self.message_port_register_out(self.msgPortName)
+        self.message_port_register_out(self.outPortName)
         self.message_port_register_out(self.debugPortName)
 
         self.set_msg_handler(self.inPortName, self.handle_msg)
@@ -59,9 +59,9 @@ class timings_to_bin(gr.sync_block):
         if partial and not self.forward_partial:
             return False, []
         if self.textual_output:
-            self.message_port_pub(self.msgPortName, pmt.to_pmt(''.join('1' if item else '0' for item in content)))
+            self.message_port_pub(self.outPortName, pmt.to_pmt(''.join('1' if item else '0' for item in content)))
         else:
-            self.message_port_pub(self.msgPortName, pmt.to_pmt(content))
+            self.message_port_pub(self.outPortName, pmt.to_pmt(content))
         return False, []
 
     def handle_msg(self, msg_pmt):

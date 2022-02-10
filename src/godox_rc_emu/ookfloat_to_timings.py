@@ -2,7 +2,7 @@ import numpy as np
 import pmt
 from gnuradio import gr
 
-class ook_timings(gr.sync_block):
+class ookfloat_to_timings(gr.sync_block):
     """Given data with tags indicating regions of interest, and rising/falling edges within those regions, analyze for content
 
     sample_rate: Number of samples per second, used to transform offsets to times; if 1, time field will have offsets
@@ -15,13 +15,13 @@ class ook_timings(gr.sync_block):
     def __init__(self, sample_rate=1, packet_tag='packet', edge_tag='edge'):
         gr.sync_block.__init__(
             self,
-            name='OOK Timing Collector',   # will show up in GRC
+            name='OOK Timing Detector',   # will show up in GRC
             in_sig=[np.float32],
             out_sig=None
         )
-        self.msgPortName = pmt.intern('out')
+        self.outPortName = pmt.intern('out')
         self.debugPortName = pmt.intern('debug')
-        self.message_port_register_out(self.msgPortName)
+        self.message_port_register_out(self.outPortName)
         self.message_port_register_out(self.debugPortName)
 
         # Used to change offset to timestamp; setting to 1 keeps an offset
@@ -54,7 +54,7 @@ class ook_timings(gr.sync_block):
                 elif tag.value is pmt.PMT_F:
                     if self.packet_content is not None:
                         # Send our accumulated packet
-                        self.message_port_pub(self.msgPortName, pmt.to_pmt(self.packet_content))
+                        self.message_port_pub(self.outPortName, pmt.to_pmt(self.packet_content))
                     # Reset state
                     self.state_start_time = self.current_state = self.packet_content = None
                     self.in_packet = False

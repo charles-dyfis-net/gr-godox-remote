@@ -1,0 +1,48 @@
+id: timings_to_ookfloat
+label: Timings -> OOK
+category: '[Godox]'
+flags: [python]
+
+parameters:
+- id: sample_rate
+  label: Sample Rate
+  dtype: float
+  default: '1'
+- id: true_value
+  label: "True Value"
+  dtype: float
+  default: '1.0'
+- id: false_value
+  label: 'False Value'
+  dtype: float
+  default: '0.0'
+- id: idle_value
+  label: "Idle Value"
+  dtype: float
+  default: 0
+- id: sep_time
+  label: "Separation Time"
+  dtype: float
+  default: "1e-3"
+- id: sep_value
+  label: "Separation Value"
+  dtype: float
+  default: 0.0
+
+inputs:
+- domain: message
+  id: in
+
+outputs:
+- domain: stream
+  dtype: float
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.timings_to_ookfloat(sample_rate=${sample_rate}, true_value=${true_value}, false_value=${false_value}, idle_value=${idle_value}, sep_time=${sep_time}, sep_value=${sep_value})
+
+file_format: 1
+
