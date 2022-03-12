@@ -15,7 +15,8 @@ class message_sanitizer(gr.sync_block):
     Transform dictionary-style messages to ensure that values can be
     represented in binary form, and add a checksum.
     """
-    def __init__(self, validate_incoming_checksum=True):
+    def __init__(self, validate_incoming_checksum=True, maintain_state=False, send_on_update=True,
+            default_group=1, default_chan=0, default_brightness=25, default_color=24):
         gr.sync_block.__init__(
             self,
             name='Godox Message Sanitizer',
@@ -30,30 +31,65 @@ class message_sanitizer(gr.sync_block):
         self.message_port_register_out(self.debugPortName)
         self.set_msg_handler(self.inPortName, self.handle_msg)
         self.validate_incoming_checksum = validate_incoming_checksum
+        self.maintain_state = maintain_state
+        self.send_on_update = send_on_update
+        # below will be updated iif maintain_state is True
+        self.defaults = {
+            'group': default_group,
+            'chan': default_chan,
+            'brightness': default_brightness,
+            'color': default_color,
+        }
+
+    def set_chan(self, chan):
+        self.defaults['chan'] = chan
+    def set_group(self, group):
+        self.defaults['group'] = group
+    def set_color(self, color):
+        self.defaults['color'] = color
+        if self.send_on_update:
+            self.handle_msg(None)
+    def set_brightness(self, brightness):
+        self.defaults['brightness'] = brightness
+        if self.send_on_update:
+            self.handle_msg(None)
 
     def warn(self, s):
         self.message_port_pub(self.debugPortName, pmt.to_pmt(s))
 
     def handle_msg(self, msg_in_pmt):
         checksum = 0
-        msg_in = pmt.to_python(msg_in_pmt)
-        group = msg_in.pop('group', 1)
+        if msg_in_pmt is None:
+            msg_in = {}
+        else:
+            msg_in = pmt.to_python(msg_in_pmt)
+        if not isinstance(msg_in, dict):
+            if isinstance(msg_in, tuple):
+                try:
+                    msg_in = dict(msg_in)
+                except ValueError as e:
+                    self.warn(f'Received message in tuple form that could not be converted to a dict: {msg_in!r}: {e}')
+                    return
+            else:
+                self.warn(f'Ignoring message which is not in either dict or tuple form')
+                return
+        group = msg_in.pop('group', self.defaults['group'])
         if group < 0 or group > 15:
             self.warn(f'Invalid group {group!r}')
-            group = 1
+            group = self.defaults['group']
         checksum = update_checksum(checksum, group, [110, 220, 137, 35])
-        chan = msg_in.pop('chan', 0)
+        chan = msg_in.pop('chan', self.defaults['chan'])
         if chan < 0 or chan > 15:
             self.warn(f'Invalid channel {chan!r}')
-            chan = 0
+            chan = self.defaults['chan']
         checksum = update_checksum(checksum, chan, [244, 217, 131, 55])
-        value = msg_in.pop('value', 25)
-        if value < 0:
-            self.warn(f'Coercing negative brightness {value!r} to 0')
-            value = 0
-        elif value > 127:
-            value = 127 # we don't know how the 8th bit goes into the checksum
-        checksum = update_checksum(checksum, value, [49, 98, 196, 185, 67, 134, 61])
+        brightness = msg_in.pop('brightness', self.defaults['brightness'])
+        if brightness < 0:
+            self.warn(f'Coercing negative brightness {brightness!r} to 0')
+            brightness = 0
+        elif brightness > 127:
+            brightness = 127 # we don't know how the 8th bit goes into the checksum
+        checksum = update_checksum(checksum, brightness, [49, 98, 196, 185, 67, 134, 61])
         cmd = msg_in.pop('cmd', 0)
         if cmd < 0:
             self.warn(f'Coercing negative command {cmd!r} to 0')
@@ -62,7 +98,7 @@ class message_sanitizer(gr.sync_block):
             self.warn(f'Coercing invalid command {cmd!r} to 0')
             cmd = 0
         # default is daylight temp; bicolor lights support largest brightness range here
-        color = msg_in.pop('color', 24)
+        color = msg_in.pop('color', self.defaults['color'])
         if color < 0:
             self.warn(f'Coercing negative color {color!r} to 0')
             color = 0
@@ -71,13 +107,15 @@ class message_sanitizer(gr.sync_block):
             color = 63
         orig_cksum = msg_in.pop('cksum', None)
         msg_out = {
-            'group': group,
+            'brightness': brightness,
             'chan': chan,
-            'value': value,
             'cksum': checksum,
             'cmd': cmd,
             'color': color,
+            'group': group,
         }
+        if self.maintain_state:
+            self.defaults = msg_out
         if self.validate_incoming_checksum and orig_cksum is not None and orig_cksum != checksum:
             self.warn(f'Calculated checksum {checksum!r} for message {msg_out!r}, but originally had checksum {orig_cksum!r}')
         self.message_port_pub(self.outPortName, pmt.to_pmt(msg_out))

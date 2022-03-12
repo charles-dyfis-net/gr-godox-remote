@@ -3,7 +3,7 @@ from gnuradio import gr
 import pmt
 
 class message_to_bitfield(gr.sync_block):
-    """Given a stream of dicts with group, chan, value, cmd and color keys, generate a stream of uint8 vecs, each with a 0 or 1, indicating a high or low bit.
+    """Given a stream of dicts with group, chan, brightness, cmd and color keys, generate a stream of uint8 vecs, each with a 0 or 1, indicating a high or low bit.
 
     If the input contains a cksum field, discard any messages where we calculate a different checksum. If it does not, calculate and use our own checksum.
     """
@@ -25,7 +25,7 @@ class message_to_bitfield(gr.sync_block):
 
         self.group_field = pmt.intern('group')
         self.chan_field = pmt.intern('chan')
-        self.value_field = pmt.intern('value')
+        self.brightness_field = pmt.intern('brightness')
         self.cmd_field = pmt.intern('cmd')
         self.color_field = pmt.intern('color')
         self.cksum_field = pmt.intern('cksum')
@@ -34,7 +34,7 @@ class message_to_bitfield(gr.sync_block):
             # name, bit count, default
             (pmt.intern('group'), 4, pmt.to_pmt(1)),
             (pmt.intern('chan'), 4, pmt.to_pmt(0)),
-            (pmt.intern('value'), 8, pmt.to_pmt(25)),
+            (pmt.intern('brightness'), 8, pmt.to_pmt(25)),
             (pmt.intern('cmd'), 2, pmt.to_pmt(0)),
             (pmt.intern('color'), 6, pmt.to_pmt(1)),
             (pmt.intern('cksum'), 8, pmt.PMT_NIL),

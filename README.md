@@ -23,9 +23,12 @@ Usage
 This is the fun part! The blocks you'll use are as follows:
 
 - `Godox Message Sanitizer`: Takes messages (of the form `{"group": 2, "chan": 11, "cmd": 0, "color": 1}`), fixes any values outside the range that can be represented, and adds a valid checksum.
+- `Godox Message Muxer`: Responsible for deduplicating messages (taking only the most recent one per group and channel) and mixing them with enough delay between to allow reliable reception. Also emits gain control messages to avoid a DC offset signal when no transmission is actively desired.
 - `Godox Message -> Bitfield`: Takes messages emitted by the sanitizer, and transforms to messages each containing a sequence of bits (`[0, 0, 1, 0, ...]`)
 - `Godox Bitfield -> Timings`: Takes messages each containing a sequence of bits, and transforms to a sequence of values and timings (`[(#t, 13e-4), (#f, 6e-4), (#t, 7e-4), ...]`)
 - `Timings -> OOK`: Takes messages each with a sequence of boolean values and times; generates a stream of floating-point values, suitable to be multiplied by a sine wave and sent out a radio.
+
+See `fader.grc` for an example that fades one light off and the other one on as a slider is moved -- unlike the official Godox remote, this can go all the way down to 0% brightness.
 
 ### Storing wireless sequences
 

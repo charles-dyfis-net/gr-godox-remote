@@ -22,7 +22,7 @@ class bitfield_to_message(gr.sync_block):
 
         self.group_field = pmt.intern('group')
         self.chan_field = pmt.intern('chan')
-        self.value_field = pmt.intern('value')
+        self.brightness_field = pmt.intern('brightness')
         self.cmd_field = pmt.intern('cmd')
         self.color_field = pmt.intern('color')
         self.cksum_field = pmt.intern('cksum')
@@ -41,10 +41,10 @@ class bitfield_to_message(gr.sync_block):
         - data (precise fields teased out from the packet)
           * group (used to select which lights listen to this command)
           * chan (used to select which lights listen to this command)
-          * value (integer with desired lighting level; integer percentage; RC-A5II only goes down to 25% with non-max colortemp, and 10% with max colortemp)
+          * brightness (integer with desired lighting level; integer percentage; RC-A5II only goes down to 25% with non-max colortemp, and 10% with max colortemp)
           * cmd (used to power lights on/off; not sure if other uses)
           * colortemp (integer from which desired color temperature is derived: 3200K + (colortemp*100K))
-          * cksum (actual checksum present in the packet; only covers group/chan/value as inputs)
+          * cksum (actual checksum present in the packet; only covers group/chan/brightness as inputs)
         """
         msg = pmt.to_python(msg_pmt)
         if len(msg) != 33:
@@ -77,9 +77,9 @@ class bitfield_to_message(gr.sync_block):
         cmd = msg_int & 0x03
         out = pmt.dict_add(out, self.cmd_field, pmt.to_pmt(cmd))
         msg_int >>= 2
-        ## next: value field
-        value = msg_int & 0xff
-        out = pmt.dict_add(out, self.value_field, pmt.to_pmt(value))
+        ## next: brightness field
+        brightness = msg_int & 0xff
+        out = pmt.dict_add(out, self.brightness_field, pmt.to_pmt(brightness))
         msg_int >>= 8
         ## next: chan field
         chan = msg_int & 0x0f

@@ -3,9 +3,44 @@ label: Godox Message Sanitizer
 category: '[Godox]'
 flags: [python]
 
+parameters:
+- id: send_on_update
+  dtype: enum
+  default: 'False'
+  options: ['True', 'False']
+  option_labels: ['Yes', 'No']
+- id: maintain_state
+  dtype: enum
+  default: 'False'
+  options: ['True', 'False']
+  option_labels: ['Yes', 'No']
+- id: group
+  label: Group Number (0-15)
+  dtype: int
+  default: 1
+- id: chan
+  label: Channel Number (0-15)
+  dtype: int
+  default: 0
+- id: color
+  label: Color Temp (0-63)
+  dtype: int
+  default: 24
+- id: brightness
+  label: Brightness (0-100)
+  dtype: int
+  default: 25
+
+asserts:
+- ${brightness >= 0 and brightness < 128}
+- ${color >= 0 and color < 64}
+- ${chan >= 0 and chan < 16}
+- ${group >= 0 and group < 16}
+
 inputs:
 - domain: message
   id: in
+  optional: true
 
 outputs:
 - domain: message
@@ -16,7 +51,12 @@ outputs:
 
 templates:
   imports: import godox_rc_emu
-  make: godox_rc_emu.message_sanitizer()
+  callbacks:
+  - set_group(${group})
+  - set_chan(${chan})
+  - set_color(${color})
+  - set_brightness(${brightness})
+  make: godox_rc_emu.message_sanitizer(maintain_state=${maintain_state}, send_on_update=${send_on_update}, default_group=${group}, default_chan=${chan}, default_brightness=${brightness}, default_color=${color})
 
 file_format: 1
 

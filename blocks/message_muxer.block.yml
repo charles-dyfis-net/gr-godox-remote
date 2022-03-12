@@ -1,0 +1,48 @@
+id: message_muxer
+label: Godox Message Muxer
+category: '[Godox]'
+flags: [python]
+
+parameters:
+- id: repeat_count
+  label: Repeat Count
+  dtype: int
+  default: 5
+- id: time_between_repeats
+  label: Repeat Frequency
+  dtype: float
+  default: 1e-5
+- id: cutoff_time
+  label: Gain Control Delay (Seconds)
+  dtype: float
+  default: 4.0
+- id: active_gain
+  label: Gain (Active)
+  dtype: float
+  default: 50
+- id: inactive_gain
+  label: Gain (Inactive)
+  dtype: float
+  default: 0
+
+inputs:
+- domain: message
+  id: in
+- domain: message
+  id: trigger
+
+outputs:
+- domain: message
+  id: out
+- domain: message
+  id: gain
+  optional: true
+- domain: message
+  id: debug
+  optional: true
+
+templates:
+  imports: import godox_rc_emu
+  make: godox_rc_emu.message_muxer(repeat_count=${repeat_count}, time_between_repeats=${time_between_repeats}, active_gain=${active_gain}, inactive_gain=${inactive_gain}, cutoff_time=${cutoff_time})
+
+file_format: 1
